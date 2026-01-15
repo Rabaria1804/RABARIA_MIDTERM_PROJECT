@@ -1,46 +1,146 @@
+@php
+use Illuminate\Support\Facades\Storage;
+@endphp
+
 <x-layouts.app :title="__('Dashboard')">
-    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
-        <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400">Total Menu Items</p>
-                        <h3 class="mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-100">{{ $menu->count() }}</h3>
-                    </div>
-                    <div class="rounded-full bg-blue-100 p-3 dark:bg-blue-900/30">
-                        <svg width="38px" height="38px" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M861.9 383.8H218.1c-36.4 0-66.1-29.8-66.1-66.1V288c0-36.4 29.8-66.1 66.1-66.1h643.8c36.4 0 66.1 29.8 66.1 66.1v29.7c0 36.3-29.8 66.1-66.1 66.1z" fill="#FFB89A"></path><path d="M822.9 129.2H199.8c-77.2 0-140.4 63.2-140.4 140.4v487.2c0 77.2 63.2 140.4 140.4 140.4h623.1c77.2 0 140.4-63.2 140.4-140.4V269.6c0-77.2-63.2-140.4-140.4-140.4z m80.4 177H760.4L864.6 201c5.4 3.3 10.4 7.3 15 11.8 15.3 15.3 23.7 35.4 23.7 56.8v36.6z m-673.3 0l104-117h61.3l-109.1 117H230z m247.4-117h169.2L532 306.2H368.3l109.1-117z m248.8 0h65.6L676 306.2h-60l112.5-114.8-2.3-2.2zM143 212.9c15.3-15.3 35.4-23.7 56.8-23.7h53.9l-104 117h-30.4v-36.5c0.1-21.4 8.5-41.5 23.7-56.8z m736.6 600.7c-15.3 15.3-35.4 23.7-56.8 23.7h-623c-21.3 0-41.5-8.4-56.8-23.7-15.3-15.3-23.7-35.4-23.7-56.8V366.2h783.9v390.6c0.1 21.3-8.3 41.5-23.6 56.8z" fill="#45484C"></path><path d="M400.5 770.6V430.9L534.1 508c14.3 8.3 19.3 26.6 11 41-8.3 14.3-26.6 19.3-41 11l-43.6-25.2v131.8l114.1-65.9-7.5-4.3c-14.3-8.3-19.3-26.6-11-41 8.3-14.3 26.6-19.3 41-11l97.5 56.3-294.1 169.9z" fill="#33CC99"></path></g></svg>
-                    </div>
-                </div>
-            </div>
+    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl bg-[#000000] text-[#E6DED6] p-6">
+        <div class="grid auto-rows-min gap-4 md:grid-cols-4">
 
-            <div class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
+            <!-- Total Menu Items Card -->
+            <div class="relative overflow-hidden rounded-xl border border-[#FFFFFF22] bg-[#3A2F28] p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400">Total Categories</p>
-                        <h3 class="mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-100">{{ $category->count() }}</h3>
+                        <p class="text-sm font-medium text-[#E6DED6]">Total Menu Items</p>
+                        <h3 class="mt-2 text-3xl font-bold text-[#FAF7F3]">{{ $totalMenus }}</h3>
                     </div>
-                    <div class="rounded-full bg-green-100 p-3 dark:bg-green-500/30">
-                        <svg width="38px" height="38px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 1H8V15H5V1Z" fill="#a32424"></path> <path d="M0 3H3V15H0V3Z" fill="#a32424"></path> <path d="M12.167 3L9.34302 3.7041L12.1594 15L14.9834 14.2959L12.167 3Z" fill="#a32424"></path> </g></svg>
-                    </div>
-                </div>
-            </div>
-
-            <div class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400">Best Selling Items</p>
-                        <h3 class="mt-2 text-xl font-bold text-neutral-900 dark:text-neutral-100">Adobo</h3>
-                    </div>
-                    <div class="rounded-full bg-purple-100 p-3 dark:bg-purple-900/30">
-                        <svg class="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    <div class="rounded-full bg-[#D9A86C22] p-3">
+                        <svg width="38px" height="38px" viewBox="0 0 1024 1024" fill="#D9A86C" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M861.9 383.8H218.1c-36.4 0-66.1-29.8-66.1-66.1V288c0-36.4 29.8-66.1 66.1-66.1h643.8c36.4 0 66.1 29.8 66.1 66.1v29.7c0 36.3-29.8 66.1-66.1 66.1z" fill="#E4C7A6"/>
+                            <path d="M822.9 129.2H199.8c-77.2 0-140.4 63.2-140.4 140.4v487.2c0 77.2 63.2 140.4 140.4 140.4h623.1c77.2 0 140.4-63.2 140.4-140.4V269.6c0-77.2-63.2-140.4-140.4-140.4z" fill="#CDAE8C"/>
+                            <path d="M400.5 770.6V430.9L534.1 508c14.3 8.3 19.3 26.6 11 41-8.3 14.3 26.6 19.3 41 11l-43.6-25.2v131.8l114.1-65.9-7.5-4.3c-14.3-8.3-19.3-26.6-11-41 8.3-14.3 26.6-19.3 41-11l97.5 56.3-294.1 169.9z" fill="#E9D2B5"/>
                         </svg>
                     </div>
                 </div>
             </div>
+
+            <!-- Total Categories Card -->
+            <div class="relative overflow-hidden rounded-xl border border-[#FFFFFF22] bg-[#3A2F28] p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-[#FAF7F3]">Total Categories</p>
+                        <h3 class="mt-2 text-3xl font-bold text-[#FAF7F3]">{{ $totalCategories }}</h3>
+                    </div>
+                    <div class="rounded-full bg-[#D9A86C22] p-3">
+                        <svg width="38px" height="38px" viewBox="0 0 16 16" fill="#D9A86C" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 1H8V15H5V1Z"/>
+                            <path d="M0 3H3V15H0V3Z"/>
+                            <path d="M12.167 3L9.34302 3.7041L12.1594 15L14.9834 14.2959L12.167 3Z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deleted Items Card -->
+            <div class="relative overflow-hidden rounded-xl border border-[#FFFFFF22] bg-[#3A2F28] p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-[#FAF7F3]">Items in Trash</p>
+                        <h3 class="mt-2 text-3xl font-bold text-[#FAF7F3]">{{ $deletedMenus + $deletedCategories }}</h3>
+                        <p class="mt-1 text-xs text-[#E6DED6] opacity-75">{{ $deletedMenus }} menus, {{ $deletedCategories }} categories</p>
+                    </div>
+                    <div class="rounded-full bg-[#D9A86C22] p-3">
+                        <svg class="h-6 w-6" fill="none" stroke="#D9A86C" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Card -->
+            <div class="relative overflow-hidden rounded-xl border border-[#FFFFFF22] bg-[#3A2F28] p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-[#FAF7F3]">Quick Actions</p>
+                        <div class="mt-2 flex gap-2">
+                            <a href="{{ route('menu') }}" class="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700">
+                                Menu
+                            </a>
+                            <a href="{{ route('categories') }}" class="rounded-lg bg-green-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-green-700">
+                                Categories
+                            </a>
+                            @if($deletedMenus + $deletedCategories > 0)
+                                <a href="{{ route('trash') }}" class="rounded-lg bg-orange-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-orange-700">
+                                    Trash
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-            <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
+
+        <!-- Recent Items Section -->
+        <div class="grid gap-4 md:grid-cols-2 mt-4">
+            <!-- Recent Menu Items -->
+            <div class="relative overflow-hidden rounded-xl border border-[#FFFFFF22] bg-[#3A2F28] p-6">
+                <h3 class="mb-4 text-lg font-semibold text-[#FAF7F3]">Recent Menu Items</h3>
+                <div class="space-y-3">
+                    @forelse($menu as $item)
+                        <div class="flex items-center gap-3 rounded-lg border border-[#FFFFFF15] bg-[#241E1A] p-3">
+                            <div class="flex-shrink-0">
+                                @if($item->photo)
+                                    <img src="{{ Storage::url($item->photo) }}" alt="{{ $item->dish }}" 
+                                        class="w-10 h-10 rounded-full object-cover">
+                                @else
+                                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold text-sm">
+                                        {{ $item->initials() }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-[#FAF7F3] truncate">{{ $item->dish }}</p>
+                                <p class="text-xs text-[#E6DED6] opacity-75">${{ number_format($item->price, 2) }}</p>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-sm text-[#E6DED6] opacity-75">No menu items yet.</p>
+                    @endforelse
+                </div>
+                <a href="{{ route('menu') }}" class="mt-4 block text-center text-sm text-[#D9A86C] hover:text-[#E4C7A6]">
+                    View All Menu Items →
+                </a>
+            </div>
+
+            <!-- Recent Categories -->
+            <div class="relative overflow-hidden rounded-xl border border-[#FFFFFF22] bg-[#3A2F28] p-6">
+                <h3 class="mb-4 text-lg font-semibold text-[#FAF7F3]">Recent Categories</h3>
+                <div class="space-y-3">
+                    @forelse($category as $cat)
+                        <div class="flex items-center gap-3 rounded-lg border border-[#FFFFFF15] bg-[#241E1A] p-3">
+                            <div class="flex-shrink-0">
+                                @if($cat->photo)
+                                    <img src="{{ Storage::url($cat->photo) }}" alt="{{ $cat->name }}" 
+                                        class="w-10 h-10 rounded-full object-cover">
+                                @else
+                                    <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-semibold text-sm">
+                                        {{ $cat->initials() }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-[#FAF7F3] truncate">{{ $cat->name }}</p>
+                                <p class="text-xs text-[#E6DED6] opacity-75 truncate">{{ Str::limit($cat->description, 30) ?? 'No description' }}</p>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-sm text-[#E6DED6] opacity-75">No categories yet.</p>
+                    @endforelse
+                </div>
+                <a href="{{ route('categories') }}" class="mt-4 block text-center text-sm text-[#D9A86C] hover:text-[#E4C7A6]">
+                    View All Categories →
+                </a>
+            </div>
         </div>
     </div>
 </x-layouts.app>

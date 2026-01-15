@@ -10,9 +10,16 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $menu = Menu::all();
-        $category = Category::all();
+        // Get only non-deleted items
+        $menu = Menu::latest()->take(5)->get();
+        $category = Category::latest()->take(5)->get();
+        
+        // Get counts (excluding soft deleted)
+        $totalMenus = Menu::count();
+        $totalCategories = Category::count();
+        $deletedMenus = Menu::onlyTrashed()->count();
+        $deletedCategories = Category::onlyTrashed()->count();
 
-        return view('dashboard', compact('menu', 'category'));
+        return view('dashboard', compact('menu', 'category', 'totalMenus', 'totalCategories', 'deletedMenus', 'deletedCategories'));
     }
 }

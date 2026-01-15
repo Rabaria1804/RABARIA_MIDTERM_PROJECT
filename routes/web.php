@@ -9,6 +9,7 @@ use Laravel\Fortify\Features;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TrashController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/menu', [MenuController::class, 'store'])->name('menu');
     Route::put('/menu/{menu}', [MenuController::class, 'update'])->name('menu.update');
     Route::delete('/menu/{menu}', [MenuController::class, 'destroy'])->name('menu.destroy');
+    Route::get('/menu/export/pdf', [MenuController::class, 'exportPdf'])->name('menu.export.pdf');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -30,6 +32,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories');
     Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::get('/categories/export/pdf', [CategoryController::class, 'exportPdf'])->name('categories.export.pdf');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/trash', [TrashController::class, 'index'])->name('trash');
+    Route::post('/trash/menu/{id}/restore', [TrashController::class, 'restoreMenu'])->name('trash.menu.restore');
+    Route::post('/trash/category/{id}/restore', [TrashController::class, 'restoreCategory'])->name('trash.category.restore');
+    Route::delete('/trash/menu/{id}', [TrashController::class, 'forceDeleteMenu'])->name('trash.menu.force-delete');
+    Route::delete('/trash/category/{id}', [TrashController::class, 'forceDeleteCategory'])->name('trash.category.force-delete');
 });
 
 Route::middleware(['auth'])->group(function () {
